@@ -19,12 +19,20 @@ function loadData() {
     console.log(table.toString());
 }
 
+function countData(a, b, c) {
+    trainingDataSet = JSON.parse(fs.readFileSync('./dataWare.json'));
+    let pA = trainingDataSet.filter(sample => sample.A === a)
+    let pB = trainingDataSet.filter(sample => sample.B === b)
+    let pC = trainingDataSet.filter(sample => sample.C === c)
+    console.log(pA, pB, pC)
+}
+
 function main() {
     while( !quit ) {
         let selected = onHello()
         switch(selected) {
             case '1' : loadData(); break;
-            case '2' :
+            case '2' : countData(0, 1, 0); break;
             case '3' :
             default : console.log('You input wrong, try again.');
         }
