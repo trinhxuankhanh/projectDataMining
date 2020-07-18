@@ -18,7 +18,15 @@ function loadData() {
     console.log(table.toString());
 }
 
-function countData(a, b, c) {
+function inputSample() {
+    console.log('Input sample like format below:')
+    let a = parseInt(readlineSync.question('A: '))
+    let b = parseInt(readlineSync.question('B: '))
+    let c = parseInt(readlineSync.question('C: '))
+    if ( [0, 1].includes(a, b, c) ) onHandleData(a, b, c); else console.log('You must input 1 or 0!')
+}
+
+function onHandleData(a, b, c) {
     trainingDataSet = JSON.parse(fs.readFileSync('./dataWare.json'));
     let pA = trainingDataSet.filter(sample => sample.A === a)
     let pB = trainingDataSet.filter(sample => sample.B === b)
@@ -39,14 +47,14 @@ function countData(a, b, c) {
     let pMinusFilterC = testSample(pC.length, pMinus.length, pCFilterMinus.length)
     let totalPlus = totalCharacter(pPlusFilterA, pPlusFilterB, pPlusFilterC)
     let totalMinus = totalCharacter(pMinusFilterA, pMinusFilterB, pMinusFilterC)
-    if (( totalPlus - totalMinus ) > 0) {
+    if ((totalPlus - totalMinus) > 0) {
         console.log(`This is result with Plus = ${totalPlus} and Minus = ${totalMinus}. Of class +`)
         saveData(trainingDataSet, a, b, c, '+')
     } else {
-        console.log(`This is result with Plus = ${totalPlus} and Minus = ${totalMinus}. Of class +`)
+        console.log(`This is result with Plus = ${totalPlus} and Minus = ${totalMinus}. Of class -`)
         saveData(trainingDataSet, a, b, c, '-')
     }   
-    if ( totalPlus = totalMinus ) console.log('..........!!!')
+    if ( totalPlus === totalMinus ) console.log('!!!!!')
 }
 
 function testSample(p, pCharacter, pCharacterFilter) {
@@ -57,9 +65,14 @@ function totalCharacter(pFilterA, pFilterB, pFilterC) {
     return pFilterA * pFilterB * pFilterC
 }
 
+function quitProgramme() {
+    console.log('Bye.........')
+    quit = true
+}
+
 function saveData(trainingDataSet, a, b, c, label) {
-    let question = readlineSync.question('Do you want save sample into the training dataset(y/n)? > ')
-    question.toUpperCase() === 'Y' ? trainingDataSet.push( { 
+    let question = readlineSync.keyInYN('Do you want save a sample into the training dataset? ')
+    question === true ? trainingDataSet.push( { 
         id : trainingDataSet.length > 0 ? trainingDataSet[trainingDataSet.length - 1].id + 1 : 1,
         A : a,
         B : b,
@@ -69,29 +82,16 @@ function saveData(trainingDataSet, a, b, c, label) {
     fs.writeFileSync('./dataWare.json', JSON.stringify(trainingDataSet))
 }
 
-function inputSample() {
-    console.log('Input sample like format below:')
-    let a = parseInt(readlineSync.question('A: '))
-    let b = parseInt(readlineSync.question('B: '))
-    let c = parseInt(readlineSync.question('C: '))
-    countData(a, b, c)
-}
-
-function quit() {
-    console.log('Bye.........')
-    quit = true
-}
-
 function main() {
-    while( !quit ) {
+    do {
         let selected = onHello()
         switch(selected) {
             case '1' : loadData(); break;
             case '2' : inputSample(); break;
-            case '3' : quit(); break;
+            case '3' : quitProgramme(); break;
             default : console.log('You input wrong, try again.');
         }
-    }
+    } while( !quit )
 }
 
 main()
