@@ -33,18 +33,18 @@ function onHandleData(a, b, c) {
     let pC = trainingDataSet.filter(sample => sample.C === c)
     let pPlus = trainingDataSet.filter(sample => sample.label === '+')
     let pMinus = trainingDataSet.filter(sample => sample.label === '-')
-    let pAFilterPlus = pPlus.filter( sample => sample.A === a)
-    let pAFilterMinus = pMinus.filter( sample => sample.A === a)
-    let pBFilterPlus = pPlus.filter( sample => sample.B === b)
-    let pBFilterMinus = pMinus.filter( sample => sample.B === b)
-    let pCFilterPlus = pPlus.filter( sample => sample.C === c)
-    let pCFilterMinus = pMinus.filter( sample => sample.C === c)
-    let pPlusFilterA = testSample(pA.length, pPlus.length, pAFilterPlus.length)
-    let pPlusFilterB = testSample(pB.length, pPlus.length, pBFilterPlus.length)
-    let pPlusFilterC = testSample(pC.length, pPlus.length, pCFilterPlus.length)
-    let pMinusFilterA = testSample(pA.length, pMinus.length, pAFilterMinus.length)
-    let pMinusFilterB = testSample(pB.length, pMinus.length, pBFilterMinus.length)
-    let pMinusFilterC = testSample(pC.length, pMinus.length, pCFilterMinus.length)
+    let pAFilterPlus = pPlus.filter( sample => sample.A === a).length / pA.length
+    let pAFilterMinus = pMinus.filter( sample => sample.A === a).length / pA.length
+    let pBFilterPlus = pPlus.filter( sample => sample.B === b).length / pB.length
+    let pBFilterMinus = pMinus.filter( sample => sample.B === b).length / pB.length
+    let pCFilterPlus = pPlus.filter( sample => sample.C === c).length / pC.length
+    let pCFilterMinus = pMinus.filter( sample => sample.C === c).length / pC.length
+    let pPlusFilterA = testSample(pA.length / trainingDataSet.length, pPlus.length / trainingDataSet.length, pAFilterPlus)
+    let pPlusFilterB = testSample(pB.length / trainingDataSet.length, pPlus.length / trainingDataSet.length, pBFilterPlus)
+    let pPlusFilterC = testSample(pC.length / trainingDataSet.length, pPlus.length / trainingDataSet.length, pCFilterPlus)
+    let pMinusFilterA = testSample(pA.length / trainingDataSet.length, pMinus.length / trainingDataSet.length, pAFilterMinus)
+    let pMinusFilterB = testSample(pB.length / trainingDataSet.length, pMinus.length / trainingDataSet.length, pBFilterMinus)
+    let pMinusFilterC = testSample(pC.length / trainingDataSet.length, pMinus.length / trainingDataSet.length, pCFilterMinus)
     let totalPlus = totalCharacter(pPlusFilterA, pPlusFilterB, pPlusFilterC)
     let totalMinus = totalCharacter(pMinusFilterA, pMinusFilterB, pMinusFilterC)
     if ((totalPlus - totalMinus) > 0) {
@@ -58,7 +58,7 @@ function onHandleData(a, b, c) {
 }
 
 function testSample(p, pCharacter, pCharacterFilter) {
-    return (pCharacterFilter * pCharacter) / p
+    return (pCharacterFilter * p) / pCharacter
 }
 
 function totalCharacter(pFilterA, pFilterB, pFilterC) {
@@ -95,5 +95,3 @@ function main() {
 }
 
 main()
-
-ádksajdkjkdjkdjdkjk
