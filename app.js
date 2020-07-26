@@ -45,8 +45,8 @@ function onHandleData(a, b, c) {
     let pMinusFilterA = testSample(pA.length / trainingDataSet.length, pMinus.length / trainingDataSet.length, pAFilterMinus)
     let pMinusFilterB = testSample(pB.length / trainingDataSet.length, pMinus.length / trainingDataSet.length, pBFilterMinus)
     let pMinusFilterC = testSample(pC.length / trainingDataSet.length, pMinus.length / trainingDataSet.length, pCFilterMinus)
-    let totalPlus = totalCharacter(pPlusFilterA, pPlusFilterB, pPlusFilterC)
-    let totalMinus = totalCharacter(pMinusFilterA, pMinusFilterB, pMinusFilterC)
+    let totalPlus = totalCharacter(pPlus.length / trainingDataSet.length, pPlusFilterA, pPlusFilterB, pPlusFilterC)
+    let totalMinus = totalCharacter(pMinus.length / trainingDataSet.length, pMinusFilterA, pMinusFilterB, pMinusFilterC)
     if ((totalPlus - totalMinus) > 0) {
         console.log(`This is result with Plus = ${totalPlus} and Minus = ${totalMinus}. Of class +`)
         saveData(trainingDataSet, a, b, c, '+')
@@ -61,8 +61,8 @@ function testSample(p, pCharacter, pCharacterFilter) {
     return (pCharacterFilter * p) / pCharacter
 }
 
-function totalCharacter(pFilterA, pFilterB, pFilterC) {
-    return pFilterA * pFilterB * pFilterC
+function totalCharacter(pCharacter, pFilterA, pFilterB, pFilterC) {
+    return pCharacter * pFilterA * pFilterB * pFilterC
 }
 
 function quitProgramme() {
